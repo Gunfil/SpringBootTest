@@ -47,7 +47,10 @@ public class BlogController {
             return "redirect:/blog";
         }
         Optional<Post> post = postRepository.findById(id);
-        model.addAttribute("post", post.get());
+        Post postO = post.orElse(null);
+        postO.setViews(postO.getViews() + 1);
+        model.addAttribute("post", postO);
+        postRepository.save(postO);
         return "blog-details";
     }
 
